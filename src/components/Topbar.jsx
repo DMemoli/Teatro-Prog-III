@@ -15,7 +15,7 @@ function Topbar(){
     return(
       
         <>
-        <h1>Teatro EJEMPLO</h1>
+        <h1><a href="/">Teatro EJEMPLO</a></h1>
         {(loggedIn)?<><Tooltip title="Ver perfil">
             <Button href="/usuarios" type="primary" shape="circle" size="large" icon={<UserOutlined />} />
         </Tooltip><Tooltip title="Cerrar Sesion">

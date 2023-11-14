@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Layout, theme, FloatButton, Carousel } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, theme, FloatButton, Carousel, Button, Popover, Divider } from 'antd';
 import {
   ShoppingCartOutlined,
   ShoppingTwoTone,
 } from '@ant-design/icons';
-import cartelera from '../img/cartelera';
+import playsService from '../services/playapi';
 const { Sider, Content } = Layout;
 const contentStyle = {
   height: '90vh',
@@ -14,10 +14,27 @@ const contentStyle = {
   textAlign: 'center',
   background: '#000000',
 };
+const textStyle = {
+  textAlign: 'center',
+  position: 'absolute',
+  margin: '1vh'
+};
 
 const Billboard = () => {
+  const imgUrl = 'http://localhost:2000/src/img/';
   const [collapsed, setCollapsed] = useState(true);
-  const [obra, setObra] = useState("obraaaaaaaa");
+  const [obra, setObra] = useState("o");
+  const [plays, setPlays] = useState([]);
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await playsService.getPlays()
+      console.log(response)
+      setPlays(response)
+    }
+    fetchData()
+    console.log(JSON.stringify(plays))
+  }, [])
 
   const {
     token: { colorBgContainer },
@@ -47,19 +64,20 @@ const Billboard = () => {
               right: 95,
             }}
           />
-          <Carousel autoplay={collapsed} afterChange={(n) => setObra(n)}>
-            <div>
-              <img style={contentStyle} src={cartelera.image1}></img>
-            </div>
-            <div>
-              <img style={contentStyle} src={cartelera.image2}></img>
-            </div>
-            <div>
-              <img style={contentStyle} src={cartelera.image3}></img>
-            </div>
-            <div>
-              <img style={contentStyle} src={cartelera.image4}></img>
-            </div>
+          <Carousel autoplay={collapsed} afterChange={(n) => setObra(plays[n].name)}>
+            {plays.map((x) =><div>
+              <div style={textStyle}>
+              <Popover  content={<div>
+              <h1>{x.name}</h1>
+              <h2>{x.plot}</h2>
+              <h3>{x.cast}</h3>
+              </div>} tittle={x.name}>
+              <Button>{x.name}</Button>
+              </Popover>
+              </div>
+              <img style={contentStyle} src={new URL(imgUrl+x.imgName).href}></img>
+            </div>) }
+
           </Carousel>
         </Content>
         <Sider
@@ -71,7 +89,9 @@ const Billboard = () => {
           width="50%"
         >
           <div className="demo-logo-vertical" />
-          <h1>{obra}</h1>
+          <div>
+            <h1></h1>
+          </div>
         </Sider>
       </Layout>
     </Layout>

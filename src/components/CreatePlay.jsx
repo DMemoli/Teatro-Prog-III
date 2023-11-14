@@ -124,13 +124,19 @@ function createPlay() {
                 <TextArea rows={3} />
             </Form.Item>
             <Form.Item
-                name="image"
-                label="Imagen"
-                valuePropName="fileList"
+                name="imgName"
+                label="Url imagen"
+                rules={[
+                    {
+                        type: 'text'
+                    },
+                    {
+                        required: true,
+                        message: 'Please input your img',
+                    },
+                ]}
             >
-                <Upload name="logo" action="/upload.do" listType="picture">
-                    <Button icon={<UploadOutlined />}>Click to upload</Button>
-                </Upload>
+                <Input />
             </Form.Item>
 
             <Form.Item {...tailFormItemLayout}>

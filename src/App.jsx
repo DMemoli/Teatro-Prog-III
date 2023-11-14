@@ -10,6 +10,7 @@ import ListarUsuarios from './modules/Usuarios/ListarUsuarios'
 import EditarUsuario from './modules/Usuarios/EditarUsuario'
 import CreateUser from './components/CreateUser'
 import Usuarios from './modules/Usuarios'
+import ListShows from './modules/Plays/Shows'
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
               <Route path='create' element={<CreateUser/>}/>
               <Route path='editar/:id' element={<EditarUsuario/>}/>
               </Route>
+            <Route path='shows/:id' element={<ListShows/>}></Route>
           </Route>
         </Routes>
       </BrowserRouter>
