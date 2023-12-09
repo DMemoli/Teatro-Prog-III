@@ -1,29 +1,35 @@
-import { Button } from 'antd'
+import { Button, Collapse } from 'antd'
 import { Link } from 'react-router-dom'
 import playsService from '../services/playapi'
 
 
 function Plays({data}) {
   //const id = url.split('/')[5]
-  console.log("entro");
   console.log(data);
-  return (
-    <li>
-      Obra: {data.name}{' '}
-      Descripcion: {data.plot}
-      <Link to={`/shows/${data.id}`}>
+  var items = [];
+  data.map((play)=>{items.push({
+    label: play.name,
+    children: <p><li>Elenco: {play.cast}</li><li>Trama: {play.plot}</li><li>
+      <Link to={`/shows/${play._id}`}>
         <Button>Funciones</Button>
       </Link>
-      <Link to={`/plays/edit/${data.id}`}>
+      <Link to={`/plays/edit/${play._id}`}>
         <Button>Editar</Button>
       </Link>
-      <Link to="/usuarios" onClick={()=>playsService.deletePlay(data.id).then(() => {
+      <Link to="/usuarios" onClick={()=>playsService.deletePlay(play._id).then(() => {
             // Eliminación exitosa, recargar la página
             window.location.reload();
         })}>
         <Button >Borrar</Button>
-    </Link>
-    </li>
+    </Link></li></p>
+  })})
+
+
+  return (
+    <>
+    <Collapse accordion items={items} />
+    </>
+    
   )
 }
 

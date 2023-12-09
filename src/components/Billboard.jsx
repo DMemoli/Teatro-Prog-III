@@ -5,6 +5,7 @@ import {
   ShoppingTwoTone,
 } from '@ant-design/icons';
 import playsService from '../services/playapi';
+import Shows from './Shows';
 const { Sider, Content } = Layout;
 const contentStyle = {
   height: '90vh',
@@ -23,9 +24,9 @@ const textStyle = {
 const Billboard = () => {
   const imgUrl = 'http://localhost:2000/src/img/';
   const [collapsed, setCollapsed] = useState(true);
-  const [obra, setObra] = useState("o");
+  const [obra, setObra] = useState("");
   const [plays, setPlays] = useState([]);
-  
+  const [shows, setShows] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
       const response = await playsService.getPlays()
@@ -64,7 +65,7 @@ const Billboard = () => {
               right: 95,
             }}
           />
-          <Carousel autoplay={collapsed} afterChange={(n) => setObra(plays[n].name)}>
+          <Carousel autoplay={collapsed} afterChange={(n) => {setObra(plays[n]._id); setShows(plays[n].performances)}}>
             {plays.map((x) =><div>
               <div style={textStyle}>
               <Popover  content={<div>
@@ -90,7 +91,8 @@ const Billboard = () => {
         >
           <div className="demo-logo-vertical" />
           <div>
-            <h1></h1>
+            <h1>{obra}</h1>
+            <Shows data={{id: obra, performances:shows }}/>
           </div>
         </Sider>
       </Layout>

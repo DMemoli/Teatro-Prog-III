@@ -27,10 +27,9 @@ function ListPlays() {
           <div className="content" />
         </Spin>
       ) : ( 
-          plays.map((x) =><Plays data={{name: x.name, plot:x.plot, cast:x.cast, id:x._id}}/>) 
+          <Plays data={plays}/>) 
 
-)}
-    
+}   
     </>
   )
 }

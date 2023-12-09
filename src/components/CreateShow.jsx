@@ -35,10 +35,11 @@ function createShow(id) {
     console.log(id)
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
-    
+        const data = {'date': values['date'].format()}
+        console.log(data)
         const fetchData = async () => {
     
-            const response = await playsService.createShow(id.data, values)
+            const response = await playsService.createShow(id.data, data)
             console.log(response)
         }
         fetchData()

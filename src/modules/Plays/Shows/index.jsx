@@ -32,7 +32,7 @@ function ListShows() {
   return (
     <>
       {JSON.stringify(play)}
-      {(play && play.performances.lenght > 0)?play.performances.map((f)=> f):"No tiene"}
+      {(play && play.performances)?play.performances.map((f)=> {"Hola"+f}):"No tiene"}
       <CreateShow data={id}/>
 
     
