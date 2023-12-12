@@ -24,8 +24,7 @@ const textStyle = {
 const Billboard = () => {
   const imgUrl = 'http://localhost:2000/src/img/';
   const [collapsed, setCollapsed] = useState(true);
-  const [obra, setObra] = useState([]);
-  const [id, setId] = useState("");
+  const [obra, setObra] = useState("");
   const [plays, setPlays] = useState([]);
   const [shows, setShows] = useState([]);
   useEffect(() => {
@@ -33,8 +32,6 @@ const Billboard = () => {
       const response = await playsService.getPlays()
       console.log(response)
       setPlays(response)
-      setId(response[0]._id)
-      setObra(response[0])
     }
     fetchData()
     console.log(JSON.stringify(plays))
@@ -59,7 +56,7 @@ const Billboard = () => {
         ><FloatButton
             type="text"
             icon={collapsed ? <ShoppingCartOutlined /> : <ShoppingTwoTone />}
-            onClick={() => window.location.href = "/comprar/obra/"+id}
+            onClick={() => setCollapsed(!collapsed)}
             tooltip={<div>Comprar</div>}
             style={{
               fontSize: '20px',
@@ -68,7 +65,7 @@ const Billboard = () => {
               right: 95,
             }}
           />
-          <Carousel autoplay={collapsed} afterChange={(n) => {setId(plays[n]._id); setObra(plays[n]); setShows(plays[n].performances)}}>
+          <Carousel autoplay={collapsed} afterChange={(n) => {setObra(plays[n]._id); setShows(plays[n].performances)}}>
             {plays.map((x) =><div>
               <div style={textStyle}>
               <Popover  content={<div>
@@ -94,8 +91,8 @@ const Billboard = () => {
         >
           <div className="demo-logo-vertical" />
           <div>
-            <h1>{obra.name}</h1>
-            <Shows data={{id: id, play: obra }}/>
+            <h1>{obra}</h1>
+            <Shows data={{id: obra, performances:shows }}/>
           </div>
         </Sider>
       </Layout>

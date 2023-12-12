@@ -1,5 +1,6 @@
 import React from 'react';
-import { DatePicker, Form, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { DatePicker, Form, Button, Select } from 'antd';
 import playsService from '../services/playapi';
 
 const formItemLayout = {
@@ -32,50 +33,91 @@ const config = {
 
 
 function createShow(id) {
-    console.log(id)
+    const [theaters, setTheaters] = useState([])
+    const [theatersOptions, setTheatersOptions] = useState([])
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            const response = await playsService.getTheaters()
+            console.log(response)
+            return response
+
+        }
+        let resp = fetchData()
+        resp.then(
+            (resp) => {
+                setTheaters(resp)
+                let teatros = [];
+                resp.map((t) => {
+                    teatros.push({
+                        value: t._id,
+                        label: t.name,
+                    })
+                })
+                setTheatersOptions(teatros)
+                console.log(teatros)
+            }
+        )
+
+    }, [])
+
+
+
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
-        const data = {'date': values['date'].format()}
+        const data = { 'date': values['date'].format(), 'theater_hall': values['theater_hall'], 'seats': theaters[0].seats }
         console.log(data)
         const fetchData = async () => {
-    
             const response = await playsService.createShow(id.data, data)
             console.log(response)
+
         }
         fetchData()
-    
-    
-    };
-    return (<Form
-        name="time_related_controls"
-        {...formItemLayout}
-        onFinish={onFinish}
-        style={{
-            maxWidth: 600,
-        }}
-    >
+        console.log(id.data)
+        window.location.href = "/shows/" + id.data
 
-        <Form.Item name="date" label="DatePicker[showTime]" {...config}>
-            <DatePicker showTime format="YYYY-MM-DD HH:mm" />
-        </Form.Item>
-        <Form.Item
-            wrapperCol={{
-                xs: {
-                    span: 24,
-                    offset: 0,
-                },
-                sm: {
-                    span: 16,
-                    offset: 8,
-                },
+
+    };
+    return (
+        <Form
+            name="time_related_controls"
+            {...formItemLayout}
+            onFinish={onFinish}
+            style={{
+                maxWidth: 600,
             }}
         >
-            <Button type="primary" htmlType="submit">
-                Submit
-            </Button>
-        </Form.Item>
 
-    </Form>)
+            <Form.Item name="date" label="Fecha y hora" {...config}>
+                <DatePicker showTime format="YYYY-MM-DD HH:mm" />
+            </Form.Item>
+            <Form.Item name='theater_hall' label="Sala:" >
+                <Select
+                    showSearch
+                    placeholder="Sala"
+                    optionFilterProp="children"
+                    options={theatersOptions}
+                />
+            </Form.Item>
+            <Form.Item
+                wrapperCol={{
+                    xs: {
+                        span: 24,
+                        offset: 0,
+                    },
+                    sm: {
+                        span: 16,
+                        offset: 8,
+                    },
+                }}
+            >
+                <Button type="primary" htmlType="submit">
+                    Crear show
+                </Button>
+            </Form.Item>
+
+        </Form>)
 
 };
 export default createShow;

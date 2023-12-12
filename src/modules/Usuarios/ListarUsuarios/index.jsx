@@ -20,15 +20,14 @@ function ListarUsuarios() {
   }, [])
   return (
     <>
-      <h1>Listado de usuarios</h1>
+      
       {isLoading ? (
         <Spin tip="Cargando listado..." size="large">
           <div className="content" />
         </Spin>
       ) : ( 
-          usuarios.map((x) =><ListUsers data={{nombre: x.firstName, apellido:x.lastName, rol:x.role.name, id:x._id}}/>) 
-
-)}
+          <ListUsers data={usuarios}/>) 
+      }
     </>
   )
 }

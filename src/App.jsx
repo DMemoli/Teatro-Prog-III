@@ -11,7 +11,9 @@ import EditarUsuario from './modules/Usuarios/EditarUsuario'
 import CreateUser from './components/CreateUser'
 import Usuarios from './modules/Usuarios'
 import ListShows from './modules/Plays/Shows'
-
+import EditTheaters from './modules/Plays/Theaters/EditTheaters'
+import Comprar from './modules/Comprar'
+import ComprarObra from './modules/Comprar/ComprarObra'
 
 function App() {
   return (
@@ -34,6 +36,13 @@ function App() {
               <Route path='editar/:id' element={<EditarUsuario/>}/>
               </Route>
             <Route path='shows/:id' element={<ListShows/>}></Route>
+            <Route path="theaters">
+              <Route path='edit/:id' element={<EditTheaters/>}/>
+            </Route>
+            <Route path="comprar">
+              <Route index element={<Comprar/>}/>
+              <Route path='obra/:id' element={<ComprarObra/>}/>
+            </Route>
           </Route>
         </Routes>
       </BrowserRouter>

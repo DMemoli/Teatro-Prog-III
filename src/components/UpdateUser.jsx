@@ -65,7 +65,7 @@ function updateUser(data) {
         }
         fetchData()
 
-        window.location.href = "/usuarios/list"
+        window.location.href = "/usuarios"
     };
     const prefixSelector = (
         <Form.Item name="prefix" noStyle>
@@ -172,21 +172,6 @@ function updateUser(data) {
                     <Input.Password />
                 </Form.Item>
 
-
-                <Form.Item
-                    name="rol"
-                    label="Rol de usuario"
-                    rules={[
-                        {
-                            type: 'array',
-                            required: true,
-                            message: 'Please select your habitual residence!',
-                        },
-                    ]}
-                >
-                    <Cascader options={roles} />
-                </Form.Item>
-
                 <Form.Item
                     name="phone"
                     label="Phone Number"
@@ -206,7 +191,7 @@ function updateUser(data) {
 
                 <Form.Item {...tailFormItemLayout}>
                     <Button type="primary" htmlType="submit">
-                        Register
+                        Actualizar
                     </Button>
                 </Form.Item>
             </Form>
